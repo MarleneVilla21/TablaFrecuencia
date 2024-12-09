@@ -1,0 +1,108 @@
+public class Estadisticas {// este es un objeto (procesador) que sera de utilidad para llamar todo desde el main
+    private ProcesadorDeDatos procesador;//objeto
+    private int[] frecuencias;
+    private int totalFrecuencia;
+    private int[] frecuenciaAcumulada;
+    private double[] frecuenciaRelativa;
+    private double[] frecuenciaAcumuladaRelativa;
+    private int[] puntoMedio;
+    private double[] porcentaje;//variables
+
+    public Estadisticas(ProcesadorDeDatos procesador) {//constructor
+        this.procesador = procesador;
+        this.frecuencias = procesador.obtenerFrecuencias();
+        this.totalFrecuencia = procesador.obtenerTotalFrecuencia();
+        this.frecuenciaAcumulada = new int[procesador.obtenerLimiteInferior().length];
+        this.frecuenciaRelativa = new double[procesador.obtenerLimiteInferior().length];
+        this.frecuenciaAcumuladaRelativa = new double[procesador.obtenerLimiteInferior().length];
+        this.puntoMedio = new int[procesador.obtenerLimiteInferior().length];
+        this.porcentaje = new double[procesador.obtenerLimiteInferior().length];
+    }//se esta mandando a llamar
+
+    public void calcular() {//metodo
+        calcularPuntoMedio();
+        calcularFrecuenciaAcumulada();
+        calcularFrecuenciaRelativa();
+        calcularFrecuenciaAcumuladaRelativa();
+        calcularPorcentaje();
+    }
+
+    private void calcularPuntoMedio() {
+        System.out.println("===Punto Medio===");
+        for (int i = 0; i < frecuencias.length; i++) {
+            puntoMedio[i] = procesador.obtenerLimiteInferior()[i] + procesador.obtenerLimiteSuperior()[i] / 2;
+        }// foormula de classroom. los datos se estan sacando de mi arreglo frecuencias para poder sacar el punto medio, frecuencias tiene ese dato.
+
+        for (int i = 0; i < puntoMedio.length; i++) {// for para imprimir los datos
+            System.out.println(puntoMedio[i]);
+        }
+        System.out.print("\n");
+    }
+
+    private void calcularFrecuenciaAcumulada() {
+        System.out.println("==Frecuencia Acumulada==");
+        frecuenciaAcumulada[0] = frecuencias[0];
+        for (int i = 1; i < frecuencias.length; i++) {// iniciaamos desde 1 porque como ya inicializamos desde 0 necesitamos
+            frecuenciaAcumulada[i] = frecuenciaAcumulada[i - 1] + frecuencias[i];
+        }
+        for (int i = 0; i < frecuenciaAcumulada.length; i++) {
+            System.out.println(frecuenciaAcumulada[i]);
+        }
+        System.out.print("\n");
+    }
+
+    private void calcularFrecuenciaRelativa() {
+        System.out.println(" ==Frecuencia Relativa==");
+        for (int i = 0; i < frecuencias.length; i++) {
+            frecuenciaRelativa[i] = (double) frecuencias[i] / totalFrecuencia;
+        }
+        for (int i = 0; i < frecuenciaRelativa.length; i++) {
+            System.out.println(frecuenciaRelativa[i]);
+        }
+
+        System.out.print("\n");
+    }
+
+    private void calcularFrecuenciaAcumuladaRelativa() {
+        System.out.println(" ==Frecuencia Acumulada Relativa==");
+        frecuenciaAcumuladaRelativa[0] = frecuenciaRelativa[0];
+        for (int i = 1; i < frecuenciaRelativa.length; i++) {
+            frecuenciaAcumuladaRelativa[i] = frecuenciaAcumuladaRelativa[i - 1] + frecuenciaRelativa[i];
+        }
+        for (int i = 0; i < frecuenciaAcumuladaRelativa.length; i++) {
+            System.out.println(frecuenciaAcumuladaRelativa[i]);
+        }
+        System.out.print("\n");
+    }
+
+    private void calcularPorcentaje() {
+        for (int i = 0; i < frecuenciaRelativa.length; i++) {
+            porcentaje[i] = frecuenciaRelativa[i] * 100;
+        }
+        System.out.println("===Porcentaje cuyo resultado da 100%===");
+        for (int i = 0; i < porcentaje.length; i++) {
+            System.out.println(porcentaje[i]);
+        }
+        System.out.println("\n");
+    }
+
+    public int[] obtenerPuntoMedio() {
+        return puntoMedio;
+    }
+
+    public int[] obtenerFrecuenciaAcumulada() {
+        return frecuenciaAcumulada;
+    }
+
+    public double[] obtenerFrecuenciaRelativa() {
+        return frecuenciaRelativa;
+    }
+
+    public double[] obtenerFrecuenciaAcumuladaRelativa() {
+        return frecuenciaAcumuladaRelativa;
+    }
+
+    public double[] obtenerPorcentaje() {
+        return porcentaje;
+    }
+    }
