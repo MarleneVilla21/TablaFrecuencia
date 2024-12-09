@@ -1,0 +1,69 @@
+import java.util.Arrays;
+//variables
+public class ProcesadorDeDatos {
+    private int[] datos;
+    private int k;//arreglo general de todo
+    private int totalFrecuencia;
+    private int[] frecuencias;
+    private int[] limiteInferior;
+    private int[] limiteSuperior;
+//constructor
+    public ProcesadorDeDatos(int[] datos) {//datos es donde tengo los datos principales de todo
+        this.datos = datos;
+        this.k = (int) Math.round(1 + (3.322 * Math.log10(datos.length))); // Número de clases, round es para redondear
+        this.frecuencias = new int[k];
+        this.limiteInferior = new int[k];
+        this.limiteSuperior = new int[k];
+    }
+//metodo, formulas p,p,p(publicas, privadas o protegidas)
+    public void procesarDatos() {//metodo principal
+        Arrays.sort(datos);//ordenados de menor a mayor
+        int valorMinimo = datos[0];
+        int rango = datos[datos.length - 1] - datos[0];
+        int anchoClase = (int) Math.round((double) rango / k);//casteando para un numero entero y doble a la vez
+        int limiteSuperiorClase = valorMinimo + anchoClase - 1;
+
+        for (int i = 0; i < k; i++) {// se van guardando y donde se van aumentando
+            limiteInferior[i] = valorMinimo;
+            limiteSuperior[i] = limiteSuperiorClase;
+            valorMinimo = limiteSuperiorClase + 1;
+            limiteSuperiorClase = valorMinimo + anchoClase - 1;
+        }
+
+        for (int valor : datos) {// comparacion, que no haya sobrepasosjj
+            for (int i = 0; i < k; i++) {
+                if (valor >= limiteInferior[i] && valor <= limiteSuperior[i]) {//&& comparacion
+                    frecuencias[i]++;
+                    totalFrecuencia++;
+                }
+            }
+        }
+        System.out.print("\n");
+        System.out.println(" Limite inferior");
+        for (int x = 0; x < limiteInferior.length; x++) {
+            System.out.println(limiteInferior[x]);
+        }
+        System.out.print("\n");
+        System.out.println(" Limite superior");
+        for (int x = 0; x < limiteSuperior.length; x++) {
+            System.out.println(limiteSuperior[x]);
+        }
+        System.out.print("\n");
+    }
+//esto solamente es para mandarlos a llamar los correspondientes datos de cada variable
+    public int[] obtenerFrecuencias() {
+        return frecuencias;
+    }
+
+    public int[] obtenerLimiteInferior() {
+        return limiteInferior;
+    }
+
+    public int[] obtenerLimiteSuperior() {// obtener limite superior es mi metodo
+        return limiteSuperior;
+    }
+
+    public int obtenerTotalFrecuencia() {
+        return totalFrecuencia;
+    }
+}
