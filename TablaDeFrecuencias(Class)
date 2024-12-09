@@ -1,0 +1,26 @@
+public class TablaDeFrecuencias {
+    private ProcesadorDeDatos procesador;
+    private Estadisticas estadisticas;
+
+    public TablaDeFrecuencias(ProcesadorDeDatos procesador) {
+        this.procesador = procesador;
+        this.estadisticas = new Estadisticas(procesador);
+    }
+
+    public void mostrarTabla() {
+        estadisticas.calcular();
+
+        System.out.println("Clase  Inferior - Superior -Frecuencia -Punto Medio - Frecuencia Acumulada - Frecuencia Relativa - Frecuencia Acumulada Relativa - Porcentaje");
+        for (int i = 0; i < procesador.obtenerLimiteInferior().length; i++) {
+            System.out.print((i + 1) + "\t  /\t");
+            System.out.print(procesador.obtenerLimiteInferior()[i] + "\t  /\t/\t");
+            System.out.print(procesador.obtenerLimiteSuperior()[i] + "\t  /\t/\t");
+            System.out.print(procesador.obtenerFrecuencias()[i] + "\t  /\t/\t");
+            System.out.print(estadisticas.obtenerPuntoMedio()[i] + "\t  /\t\t/\t");
+            System.out.print(estadisticas.obtenerFrecuenciaAcumulada()[i] + "\t /\t\t\t/\t");
+            System.out.printf("%.4f\t  \t/\t\t\t/\t\t", estadisticas.obtenerFrecuenciaRelativa()[i]);
+            System.out.printf("%.4f\t  \t/\t\t/\t", estadisticas.obtenerFrecuenciaAcumuladaRelativa()[i]);
+            System.out.printf("%.2f%%\n", estadisticas.obtenerPorcentaje()[i]);
+        }
+    }
+}
